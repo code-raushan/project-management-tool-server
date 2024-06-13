@@ -1,6 +1,4 @@
 import { Request } from "express-validator/src/base";
-import config from "../../config";
-import cloudwatchLogger from "./cloudwatch";
 import developmentLogger from "./development";
 
 export const getLogDataFromReqObject = (req: Request): string => {
@@ -25,5 +23,5 @@ export const getLogDataFromReqObject = (req: Request): string => {
   }
 };
 
-const logger = ["development", "staging", "production"].includes(config.NODE_ENV) ? cloudwatchLogger : developmentLogger;
+const logger = developmentLogger;
 export default logger;
