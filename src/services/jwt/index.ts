@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken';
-import config from '../../config';
+import jwt from "jsonwebtoken";
+import config from "../../config";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const signJWT = (data: any, time: string): string => {
-  return jwt.sign(data, config.CLIENT_JWT_SECRET, {
+  return jwt.sign(data, config.JWT_SECRET, {
     expiresIn: time
   });
 };

@@ -51,7 +51,7 @@ interface IUserModel extends mongoose.Schema {
   firstName: string
   lastName: string
   email: string
-  password: string
+  password?: string
   address: string
   isdCode: string
   phoneNumber: string

@@ -10,11 +10,14 @@ class UserService {
 
   }
 
-  async createUser(params: ICreateUserParams) {
+  // params: Omit<ICreateUserParams, "authProvider"> & { userRole: UserRole }
+  async createUser(params: Omit<ICreateUserParams, "authProvider">) {
     const { firstName, lastName, email, password, role, address, isdCode, phoneNumber } = params;
 
     const checkIfUserExists = await this._userRepository.getUserDetails(email);
     if (checkIfUserExists) throw new BadRequestError("User already exists with this email");
+
+    // if (userRole !== UserRole.ADMIN) throw new UnauthorizedError("Not authorized to create a user");
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -29,8 +32,9 @@ class UserService {
       isdCode,
       phoneNumber
     });
-
     if (!createdUser) throw new BadRequestError("failed to create user");
+
+    createdUser.password = undefined;
 
     return createdUser;
   }

@@ -4,6 +4,7 @@ import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import mongoSanitize from "express-mongo-sanitize";
 import helmet from "helmet";
+//@ts-ignore
 import xss from "xss-clean";
 import { notFound } from "./controllers/health.controller";
 import { globalHandler } from "./middlewares/error-handler.middleware";
@@ -29,7 +30,7 @@ app.use(helmet({
 }));
 app.use(mongoSanitize());
 
-app.use(rootRouter);
+app.use("/api", rootRouter);
 
 app.use("*", asyncHandler(notFound));
 
