@@ -32,6 +32,7 @@ export class UserRepository {
       authProvider,
       role,
       password,
+      verified: true,
       ...rest
     });
   }
