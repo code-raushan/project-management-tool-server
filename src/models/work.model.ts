@@ -1,4 +1,4 @@
-import { Document, model, Schema } from "mongoose";
+import { Document, model, Schema, Types } from "mongoose";
 import { ActivitySchema } from "./activity.model";
 
 export const WorkSchema = new Schema({
@@ -14,6 +14,10 @@ export const WorkSchema = new Schema({
     type: String,
     required: true,
   },
+  createdBy: {
+    type: Types.ObjectId,
+    required: true,
+  },
   activities: {
     type: [ActivitySchema],
     default: []
@@ -27,6 +31,7 @@ export interface IWork extends Document {
   title: string
   startDate: string
   endDate: string,
+  createdBy: Types.ObjectId | string,
   activities: {
     activityRef: string,
     activityDescription: string,

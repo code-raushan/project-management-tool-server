@@ -17,7 +17,7 @@ class UserService {
     const checkIfUserExists = await this._userRepository.getUserDetails(email);
     if (checkIfUserExists) throw new BadRequestError("User already exists with this email");
 
-    // if (userRole !== UserRole.ADMIN) throw new UnauthorizedError("Not authorized to create a user");
+    // if (userRole !== UserRole.SUPERVISOR) throw new UnauthorizedError("Not authorized to create a user");
 
     const hashedPassword = await bcrypt.hash(password, 10);
 

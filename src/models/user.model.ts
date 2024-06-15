@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: UserRole,
-    default: UserRole.SUBORDINATE,
+    default: UserRole.CONTRACTOR,
   }
 });
 
