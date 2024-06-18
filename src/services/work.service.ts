@@ -46,7 +46,7 @@ class WorkService {
   async addActivities(params: IAddActivitiesServiceParams) {
     const { workId, createdBy, activities } = params;
 
-    const workDetails = await this._workRepository.getWorkDetails(workId);
+    const workDetails = await this.getWorkDetails(workId);
     if (!workDetails) throw new BadRequestError("failed to get the work details");
 
     if (String(workDetails.createdBy) !== createdBy) throw new UnauthorizedError("Not authorized to add activities");
@@ -55,6 +55,22 @@ class WorkService {
     if (!updatedWorkWithActivities) throw new BadRequestError("failed to add activities");
 
     return updatedWorkWithActivities;
+  }
+
+  async deleteWork(params: { createdBy: string, id: string }) {
+    const { createdBy, id } = params;
+
+    const workDetails = await this._workRepository.getWorkDetails(id);
+    if (!workDetails) throw new BadRequestError("failed to get the work details");
+
+    if (String(workDetails.createdBy) !== createdBy) throw new UnauthorizedError("Not authorized to delete the work deletes");
+
+    const deletedWork = await this._workRepository.deleteWork(id);
+    if (!deletedWork) throw new BadRequestError("failed to delete the work details");
+
+    return deletedWork;
+
+
   }
 }
 

@@ -39,3 +39,12 @@ export const addActivities = async (req: Request, res: Response, next: NextFunct
 
   next(response);
 };
+
+export const deleteWork = async (req: Request, res: Response, next: NextFunction) => {
+  const id = req.params.id as string;
+  const createdBy = req.user.id as string;
+
+  const response = await workService.deleteWork({ id, createdBy });
+
+  next(response);
+};

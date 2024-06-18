@@ -46,4 +46,8 @@ export class WorkRepository {
     });
 
   }
+
+  async deleteWork(id: string) {
+    return this._WorkModel.findOneAndDelete({ _id: new Types.ObjectId(id) });
+  }
 }

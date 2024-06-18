@@ -40,4 +40,5 @@ export class UserRepository {
   async getUserDetails(email: string) {
     return this._userModel.findOne({ email });
   }
+
 }
