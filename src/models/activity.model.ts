@@ -1,5 +1,10 @@
 import { Document, model, Schema } from "mongoose";
 
+export enum ActivityStatus {
+  FINISHED = "finished",
+  DELAYED = "delayed",
+}
+
 export const ActivitySchema = new Schema({
   activityRef: {
     type: String,
@@ -12,6 +17,14 @@ export const ActivitySchema = new Schema({
   assignedDates: {
     type: [String],
     default: []
+  },
+  activityStatus: {
+    type: String,
+    enum: ActivityStatus,
+  },
+  comments: {
+    type: [String],
+    default: []
   }
 }, {
   timestamps: true
@@ -20,7 +33,9 @@ export const ActivitySchema = new Schema({
 export interface IActivity extends Document {
   activityRef: string;
   activityDescription: string,
-  assignedDates: string[]
+  assignedDates: string[],
+  activityStatus?: string,
+  comments?: string[]
 }
 
 const ActivityModel = model<IActivity>("activity", ActivitySchema);
