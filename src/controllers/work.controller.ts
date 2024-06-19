@@ -48,3 +48,11 @@ export const deleteWork = async (req: Request, res: Response, next: NextFunction
 
   next(response);
 };
+
+export const listCurrentDayActivity = async (req: Request, res: Response, next: NextFunction) => {
+  const date = req.query.date as string;
+
+  const response = await workService.getActivities(date);
+
+  next(response);
+};

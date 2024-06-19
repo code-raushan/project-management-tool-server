@@ -35,7 +35,12 @@ export interface IWork extends Document {
   activities: {
     activityRef: string,
     activityDescription: string,
-    assignedDates: string[]
+    assignedDates: string[],
+    activityStatus: {
+      date?: string,
+      status?: string,
+      comment?: string,
+    }[],
   }[]
 }
 

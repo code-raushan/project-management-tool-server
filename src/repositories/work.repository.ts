@@ -50,4 +50,47 @@ export class WorkRepository {
   async deleteWork(id: string) {
     return this._WorkModel.findOneAndDelete({ _id: new Types.ObjectId(id) });
   }
+
+  async getActivities(date: string) {
+    return this._WorkModel.aggregate([
+      {
+        $unwind: "$activities"
+      },
+      {
+        $match: {
+          "activities.assignedDates": date
+        }
+      },
+      {
+        $group: {
+          _id: "$_id",
+          title: { $first: "$title" },
+          startDate: { $first: "$startDate" },
+          endDate: { $first: "$endDate" },
+          createdBy: { $first: "$createdBy" },
+          activities: {
+            $push: {
+              activityId: "$activities._id",
+              activityRef: "$activities.activityRef",
+              activityDescription: "$activities.activityDescription",
+              activityStatus: "$activities.activityStatus"
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          workId: "$_id",
+          title: 1,
+          startDate: 1,
+          endDate: 1,
+          date: date,
+          createdBy: 1,
+          activities: 1
+        }
+      }
+    ]
+    );
+  }
 }

@@ -18,14 +18,22 @@ export const ActivitySchema = new Schema({
     type: [String],
     default: []
   },
-  activityStatus: {
-    type: String,
-    enum: ActivityStatus,
-  },
-  comments: {
-    type: [String],
-    default: []
-  }
+  // activityStatus: {
+  //   type: String,
+  //   enum: ActivityStatus,
+  // },
+  // comments: {
+  //   type: [String],
+  //   default: []
+  // }
+  activityStatus: [{
+    date: String,
+    status: {
+      type: String,
+      enum: ActivityStatus
+    },
+    comment: String,
+  }]
 }, {
   timestamps: true
 });
@@ -34,9 +42,13 @@ export interface IActivity extends Document {
   activityRef: string;
   activityDescription: string,
   assignedDates: string[],
-  activityStatus?: string,
-  comments?: string[]
+  activityStatus: {
+    date?: string,
+    status?: string,
+    comment?: string,
+  }[],
 }
+
 
 const ActivityModel = model<IActivity>("activity", ActivitySchema);
 

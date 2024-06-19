@@ -69,8 +69,13 @@ class WorkService {
     if (!deletedWork) throw new BadRequestError("failed to delete the work details");
 
     return deletedWork;
+  }
 
+  async getActivities(date: string) {
+    const activities = await this._workRepository.getActivities(date);
+    if (!activities) throw new BadRequestError("failed to get the activities");
 
+    return activities;
   }
 }
 
