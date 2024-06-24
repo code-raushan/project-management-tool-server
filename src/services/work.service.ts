@@ -1,7 +1,7 @@
 import { BadRequestError } from "../errors/bad-request.error";
 import { NotFoundError } from "../errors/not-found.error";
 import { UnauthorizedError } from "../errors/unauthorized.error";
-import { ICreateWorkParams, WorkRepository } from "../repositories/work.repository";
+import { ICreateWorkParams, IUpdateActivitiesParams, WorkRepository } from "../repositories/work.repository";
 
 export interface IAddActivitiesServiceParams {
   createdBy: string,
@@ -76,6 +76,17 @@ class WorkService {
     if (!activities) throw new BadRequestError("failed to get the activities");
 
     return activities;
+  }
+
+  async updateWorkActivities(params: { id: string, activities: IUpdateActivitiesParams[] }) {
+    const { id, activities } = params;
+
+    console.log({ id, activities });
+
+    const updatedWorkWithActivities = await this._workRepository.updateActivities({ id, activities });
+    if (!updatedWorkWithActivities) throw new BadRequestError("failed to update the activites for the work");
+
+    return updatedWorkWithActivities;
   }
 }
 

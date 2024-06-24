@@ -17,6 +17,18 @@ export interface IAddActivitiesParams {
   }[]
 }
 
+export interface IUpdateActivitiesParams {
+  activityRef: string;
+  activityDescription: string,
+  assignedDates: string[],
+  activityId: string,
+  activityStatus: {
+    date?: string,
+    status?: string,
+    comment?: string,
+  }[],
+}
+
 export class WorkRepository {
   private _WorkModel = WorkModel;
 
@@ -73,7 +85,8 @@ export class WorkRepository {
               activityId: "$activities._id",
               activityRef: "$activities.activityRef",
               activityDescription: "$activities.activityDescription",
-              activityStatus: "$activities.activityStatus"
+              activityStatus: "$activities.activityStatus",
+              assignedDates: "$activities.assignedDates"
             }
           }
         }
@@ -92,5 +105,17 @@ export class WorkRepository {
       }
     ]
     );
+  }
+
+  async updateActivities(params: { id: string, activities: IUpdateActivitiesParams[] }) {
+    const { id, activities } = params;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const toUpdateActivities = activities.map(({ activityId, ...rest }) => rest);
+
+    console.log({ id, activities });
+
+    return this._WorkModel.findByIdAndUpdate(id, {
+      activities: toUpdateActivities
+    }, { new: true, upsert: true });
   }
 }

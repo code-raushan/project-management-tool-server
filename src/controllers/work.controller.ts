@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { IUpdateActivitiesParams } from "../repositories/work.repository";
 import workService from "../services/work.service";
 
 export const createWork = async (req: Request, res: Response, next: NextFunction) => {
@@ -53,6 +54,15 @@ export const listCurrentDayActivity = async (req: Request, res: Response, next: 
   const date = req.query.date as string;
 
   const response = await workService.getActivities(date);
+
+  next(response);
+};
+
+export const updateWorkActivities = async (req: Request, res: Response, next: NextFunction) => {
+  const id = req.params.id as string;
+  const activities = req.body.activities as IUpdateActivitiesParams[];
+
+  const response = await workService.updateWorkActivities({ id, activities });
 
   next(response);
 };
